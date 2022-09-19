@@ -22,7 +22,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  Offset _offset = Offset(0.4, 0.7); // new
+  Offset _offset = Offset.zero; // changed
 
   void _incrementCounter() {
     setState(() {
@@ -33,18 +33,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Transform(
-      // Transform widget
-      transform: Matrix4.identity()
-        ..setEntry(3, 2, 0.001) // perspective
-        ..rotateX(_offset.dy)
-        ..rotateY(_offset.dx),
-      alignment: FractionalOffset.center,
-      child: _defaultApp(context),
-    );
+        // Transform widget
+        transform: Matrix4.identity()
+          ..setEntry(3, 2, 0.001) // perspective
+          ..rotateX(0.01 * _offset.dy) // changed
+          ..rotateY(-0.01 * _offset.dx), // changed
+        alignment: FractionalOffset.center,
+        child: GestureDetector(
+          // new
+          onPanUpdate: (details) => setState(() => _offset += details.delta),
+          onDoubleTap: () => setState(() => _offset = Offset.zero),
+          child: _defaultApp(context),
+        ));
   }
 
   _defaultApp(BuildContext context) {
-    // new
     return Scaffold(
       appBar: AppBar(
         title: Text('The Matrix 3D'), // changed

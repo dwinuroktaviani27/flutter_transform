@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flip_panel/flip_panel.dart';
 
 class FlipWidget extends StatelessWidget {
   Widget child;
